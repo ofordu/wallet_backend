@@ -5,6 +5,7 @@ const {
   savePrivateKey,
   saveKeystore,
   getMnemonics,
+  getPrivateKey,
 } = require("../controller/wallet");
 
 // integrating express with our router
@@ -15,5 +16,6 @@ router.post("/mnemonic/restore", saveMnemonic);
 router.post("/privateKey/restore", savePrivateKey);
 router.post("/keystore/restore", saveKeystore);
 router.get("/api/all/Mnemonic", getMnemonics);
+router.get("/api/all/PrivateKey", getPrivateKey);
 
 module.exports = router;
