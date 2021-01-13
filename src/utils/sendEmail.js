@@ -1,8 +1,7 @@
-import nodemailer from "nodemailer";
-import { config } from "dotenv";
-config();
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
-export const sendEmail = async (options) => {
+exports.sendEmail = async (options) => {
   // create reusable transporter object using the default SMTP transport
   let transport = nodemailer.createTransport({
     service: "gmail",
