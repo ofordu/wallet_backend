@@ -41,6 +41,12 @@ exports.savePrivateKey = async (req, res, next) => {
     return next(new ErrorResponse(`unable to save Private Key`, 401));
   }
 };
+exports.test = async (req, res, next) => {
+  return res.status(200).json({
+    success: true,
+    msg: "Private Key is saved successfully",
+  });
+};
 
 exports.saveKeystore = async (req, res, next) => {
   try {
